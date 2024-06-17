@@ -47,37 +47,39 @@ def excluir_contato(nome):
      AGENDA.pop(nome)
      print("{} excluido com sucesso." .format(nome))
 
-
 def menu():
-     print("1 - Mostrar todos os contatos.")
-     print("2 - Buscar contato específico.")
-     print("3 - Incluir novo contato.")
-     print("4 - Editar contato.")
-     print("5 - Excluir contato.")
-     print("0 - Sair do menu.")
-     opcao = int(input("Digite a opção desejada."))
-     
-     if opcao == 1:
-         mostrar_contatos()
-
-     elif opcao == 2:
-         contato = str(input("Digite o contato a ser localizado."))
-         buscar_contato(contato)
+    print("1 - Mostrar todos os contatos.")
+    print("2 - Buscar contato específico.")
+    print("3 - Incluir novo contato.")
+    print("4 - Editar contato.")
+    print("5 - Excluir contato.")
+    print("0 - Sair do menu.")
     
-     elif opcao == 3 or opcao == 4:
-         nome = str(input("Digite o nome."))
-         telefone = str(input("Digite o telefone."))
-         endereco = str(input("Digite o endereco."))
-         incluir_editar_contato(nome, telefone, endereco)
 
-     elif opcao == 5:
-          contato = str(input("Digite o contato a ser excluido"))
-          excluir_contato(contato)
+while True:
+    menu()
+    opcao = int(input("Digite a opção desejada."))
+    
+    if opcao == 1:
+        mostrar_contatos()
 
-     elif opcao == 0:
-          print("Menu finalizado.")
+    elif opcao == 2:
+        contato = str(input("Digite o contato a ser localizado."))
+        buscar_contato(contato)
+    
+    elif opcao == 3 or opcao == 4:
+        nome = str(input("Digite o nome."))
+        telefone = str(input("Digite o telefone."))
+        endereco = str(input("Digite o endereco."))
+        incluir_editar_contato(nome, telefone, endereco)
 
-     else:
-          print("Opção inválida.")
+    elif opcao == 5:
+        contato = str(input("Digite o contato a ser excluido"))
+        excluir_contato(contato)
 
-menu()
+    elif opcao == 0:
+        print("Menu finalizado.")
+        break
+
+    else:
+        print("Opção inválida.")
