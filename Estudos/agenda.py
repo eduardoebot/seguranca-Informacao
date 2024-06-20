@@ -1,17 +1,6 @@
 AGENDA = {}
 
 
-AGENDA["eduardo"] = {
-    "telefone": "99999-8452",
-    "endereco": "Rua A"
-}
-
-AGENDA["Maria"] = {
-    "telefone": "99999-4452",
-    "endereco": "Rua B"
-}
-
-
 def mostrar_contatos():
     if AGENDA:
         for contato in AGENDA:
@@ -40,8 +29,7 @@ def incluir_editar_contato(nome, telefone, endereco):
         "endereco": endereco,
      }
     
-    print("Operação realizada com sucesso.")
-
+    salvar_automaticamente()
 
 def editar_contato(nome, telefone, endereco):
      AGENDA[nome] = {
@@ -50,11 +38,12 @@ def editar_contato(nome, telefone, endereco):
      }
 
      print("Contato {} editado com sucesso." .format(nome))
-
+     salvar_automaticamente()
 
 def excluir_contato(nome):
     try:
         AGENDA.pop(nome)
+        salvar_automaticamente()
         print("{} excluido com sucesso." .format(nome))
 
     except KeyError:
@@ -64,33 +53,35 @@ def excluir_contato(nome):
         print("Erro inesperado.")
 
 
-def exportar_agenda():
+def exportar_agenda(localArquivo):
     try:
-        with open("c:/Users/eduar/Documents/GitHub/seguranca-Informacao/Estudos/arquivo", "w") as arquivo:
+        with open("c:/Users/eduar/Documents/GitHub/seguranca-Informacao/Estudos/"+localArquivo, "w") as arquivo:
             for contato in AGENDA:
                 telefone = AGENDA[contato]["telefone"]
                 endereco = AGENDA[contato]["endereco"]
-                arquivo.write("{} | {} | {}\n" .format(contato, telefone, endereco))
+                arquivo.write("{},{},{}\n" .format(contato, telefone, endereco))
 
     except Exception as error:
         print(error)
     
     
-def importar_agenda():
+def importar_agenda(localArquivo):
     try:
-        with open("c:/Users/eduar/Documents/GitHub/seguranca-Informacao/Estudos/arquivo", "r") as arquivo:
+        with open("c:/Users/eduar/Documents/GitHub/seguranca-Informacao/Estudos/"+localArquivo, "r") as arquivo:
             importacao = arquivo.readlines()
             for contato in importacao:
-                pessoa = contato.strip().split("|")
-                print(pessoa)
+                pessoa = contato.strip().split(",")
                 pessoaNome = pessoa[0]
                 pessoaTelefone = pessoa[1]
                 pessoaEndereco = pessoa[2]
-                print(pessoaNome, pessoaTelefone, pessoaEndereco)
                 incluir_editar_contato(pessoaNome, pessoaTelefone, pessoaEndereco)
 
     except Exception as error:
         print(error)
+
+
+def salvar_automaticamente():
+    exportar_agenda("backup")
 
 
 def menu():
@@ -103,7 +94,7 @@ def menu():
     print("7 - Importar agenda.")
     print("0 - Sair do menu.")
     
-
+importar_agenda("backup")
 while True:
     menu()
     try:
@@ -130,6 +121,7 @@ while True:
                 endereco = str(input("Digite o endereco."))
                 print("Inserindo novo contato: {}." .format(nome))
                 incluir_editar_contato(nome, telefone, endereco)
+                print("Operação realizada com sucesso.")
 
     elif opcao == 4:
             nome = str(input("Digite o nome."))
@@ -139,6 +131,7 @@ while True:
                 telefone = str(input("Digite o telefone."))
                 endereco = str(input("Digite o endereco."))
                 incluir_editar_contato(nome, telefone, endereco)  
+                print("Operação realizada com sucesso.")
             except:
                 print("Contato não cadastrado")
 
@@ -148,10 +141,15 @@ while True:
         excluir_contato(contato)
 
     elif opcao == 6:
-        exportar_agenda()
+        arquivo = input("Digite o nome do arquivo para a exportação.")
+        exportar_agenda(arquivo)
 
     elif opcao == 7:
-        importar_agenda()
+        try:
+            arquivo = input("Digite o nome do arquivo para a importação")
+            importar_agenda(arquivo)
+        except Exception as error:
+            print("Erro ao importar ", error)
 
     elif opcao == 0:
         print("Menu finalizado.")
