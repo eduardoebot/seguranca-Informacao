@@ -33,9 +33,7 @@ def buscar_contato(contato):
             print("Contato não cadastrado.")
 
 
-def incluir_editar_contato(nome):    
-    telefone = str(input("Digite o telefone."))
-    endereco = str(input("Digite o endereco."))
+def incluir_editar_contato(nome, telefone, endereco):    
 
     AGENDA[nome] = {
         "telefone": telefone,
@@ -65,12 +63,44 @@ def excluir_contato(nome):
     except:
         print("Erro inesperado.")
 
+
+def exportar_agenda():
+    try:
+        with open("c:/Users/eduar/Documents/GitHub/seguranca-Informacao/Estudos/arquivo", "w") as arquivo:
+            for contato in AGENDA:
+                telefone = AGENDA[contato]["telefone"]
+                endereco = AGENDA[contato]["endereco"]
+                arquivo.write("{} | {} | {}\n" .format(contato, telefone, endereco))
+
+    except Exception as error:
+        print(error)
+    
+    
+def importar_agenda():
+    try:
+        with open("c:/Users/eduar/Documents/GitHub/seguranca-Informacao/Estudos/arquivo", "r") as arquivo:
+            importacao = arquivo.readlines()
+            for contato in importacao:
+                pessoa = contato.strip().split("|")
+                print(pessoa)
+                pessoaNome = pessoa[0]
+                pessoaTelefone = pessoa[1]
+                pessoaEndereco = pessoa[2]
+                print(pessoaNome, pessoaTelefone, pessoaEndereco)
+                incluir_editar_contato(pessoaNome, pessoaTelefone, pessoaEndereco)
+
+    except Exception as error:
+        print(error)
+
+
 def menu():
     print("1 - Mostrar todos os contatos.")
     print("2 - Buscar contato específico.")
     print("3 - Incluir novo contato.")
     print("4 - Editar contato.")
     print("5 - Excluir contato.")
+    print("6 - Exportar agenda.")
+    print("7 - Importar agenda.")
     print("0 - Sair do menu.")
     
 
@@ -96,15 +126,19 @@ while True:
                 AGENDA[nome]
                 print("Contato já cadastrado")
             except:
+                telefone = str(input("Digite o telefone."))
+                endereco = str(input("Digite o endereco."))
                 print("Inserindo novo contato: {}." .format(nome))
-                incluir_editar_contato(nome)
+                incluir_editar_contato(nome, telefone, endereco)
 
     elif opcao == 4:
             nome = str(input("Digite o nome."))
             try:
                 AGENDA[nome]
                 print("Editando contato: {}." .format(nome))
-                incluir_editar_contato(nome)  
+                telefone = str(input("Digite o telefone."))
+                endereco = str(input("Digite o endereco."))
+                incluir_editar_contato(nome, telefone, endereco)  
             except:
                 print("Contato não cadastrado")
 
@@ -112,6 +146,12 @@ while True:
     elif opcao == 5:
         contato = str(input("Digite o contato a ser excluido"))
         excluir_contato(contato)
+
+    elif opcao == 6:
+        exportar_agenda()
+
+    elif opcao == 7:
+        importar_agenda()
 
     elif opcao == 0:
         print("Menu finalizado.")
