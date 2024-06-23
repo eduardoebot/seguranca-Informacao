@@ -2,7 +2,7 @@
 import socket
 
 #AF_INET = IPV4
-#SOCK_STREAM = TCP / #SOCK_DGRAM = UDP
+#SOCK_STREAM = TCP
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(("google.com", 80))
 
