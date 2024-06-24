@@ -4,7 +4,7 @@ import socket
 #AF_INET = IPV4
 #SOCK_STREAM = TCP
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect(("google.com", 80))
+client.connect(("127.0.0.1", 1234))
 
 #Com o "b" converte string para bits
 client.send(b"GET / HTTP/1.1\nHost: www.google.com\n\n\n")
